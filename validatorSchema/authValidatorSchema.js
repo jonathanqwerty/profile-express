@@ -5,7 +5,6 @@ const registerValidator = [
   body("email").notEmpty().isEmail(),
   body("password").notEmpty(),
   body("gender").notEmpty(),
-  body("images").notEmpty,
 ];
 
 const loginValidator = [

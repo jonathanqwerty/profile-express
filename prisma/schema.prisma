@@ -24,7 +24,7 @@ model profiles {
   id        Int      @id @default(autoincrement())
   name      String
   gender    String
-  phone     String?
+  phone     String
   images    String
   user_id   Int      @unique
   user      users    @relation(fields: [user_id], references: [id])

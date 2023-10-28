@@ -8,7 +8,7 @@ const express = require("express"),
 
 router.post(
   "/register",
-  multer.image.single("image"),
+  multer.images.single("images"),
   validate(schema.registerValidator),
   controller.register
 );
