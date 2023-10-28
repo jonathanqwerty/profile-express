@@ -4,11 +4,12 @@ const express = require("express"),
   validate = require("../midellware/validate"),
   schema = require("../validatorSchema/authValidatorSchema"),
   checkToken = require("../midellware/checkToken"),
-  multer = require("../midellware/multer");
+  multer = require("../midellware/multer"),
+  multerLib = require("multer")();
 
 router.post(
   "/register",
-  multer.images.single("images"),
+  multerLib.single("image"),
   validate(schema.registerValidator),
   controller.register
 );
@@ -20,5 +21,6 @@ router.post(
   validate(schema.changePasswordValidator),
   controller.changePassword
 );
+// router.post("/upload", multerLib.single("image"), controller.upload);
 
 module.exports = router;

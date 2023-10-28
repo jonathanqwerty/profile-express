@@ -1,4 +1,5 @@
-const { users } = require("../models"),
+const { users } = require("../models");
+const { imageKit } = require("../utils"),
   utils = require("../utils/index"),
   jwt = require("jsonwebtoken"),
   bcrypt = require("bcrypt");
@@ -118,5 +119,28 @@ module.exports = {
     return res.status(403).json({
       error: "Your old password is not valid",
     });
+  },
+  upload: async (req, res) => {
+    try {
+      const fileTostring = req.file.buffer.toString("base64");
+
+      const uploadFile = await imageKit.upload({
+        fileName: req.file.originalname,
+        file: fileTostring,
+      });
+
+      return res.status(200).json({
+        data: {
+          name: uploadFile.name,
+          url: uploadFile.url,
+          type: uploadFile.fileType,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        error,
+      });
+    }
   },
 };
