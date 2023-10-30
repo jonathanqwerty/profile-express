@@ -2,7 +2,8 @@ const { users } = require("../models");
 const { imageKit } = require("../utils"),
   utils = require("../utils/index"),
   jwt = require("jsonwebtoken"),
-  bcrypt = require("bcrypt");
+  bcrypt = require("bcrypt"),
+  qr = require("qrcode");
 
 require("dotenv").config();
 const secret_key = process.env.JWT_KEY || "no_secret";
@@ -136,6 +137,17 @@ module.exports = {
           type: uploadFile.fileType,
         },
       });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        error,
+      });
+    }
+  },
+  qr_code: async (req, res, next) => {
+    try {
+      const hasil = req.data;
+      console.log(hasil);
     } catch (error) {
       console.log(error);
       return res.status(500).json({

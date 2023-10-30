@@ -9,7 +9,7 @@ const express = require("express"),
 
 router.post(
   "/register",
-  multerLib.single("image"),
+  multer.images.single("image"),
   validate(schema.registerValidator),
   controller.register
 );
@@ -21,6 +21,6 @@ router.post(
   validate(schema.changePasswordValidator),
   controller.changePassword
 );
-// router.post("/upload", multerLib.single("image"), controller.upload);
+router.post("/upload", multerLib.single("image"), controller.upload);
 
 module.exports = router;
