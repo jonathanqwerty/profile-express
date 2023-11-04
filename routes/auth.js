@@ -9,7 +9,7 @@ const express = require("express"),
 
 router.post(
   "/register",
-  multer.images.single("image"),
+  multerLib.single("image"),
   validate(schema.registerValidator),
   controller.register
 );

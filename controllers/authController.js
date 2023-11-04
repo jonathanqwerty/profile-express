@@ -2,8 +2,7 @@ const { users } = require("../models");
 const { imageKit } = require("../utils"),
   utils = require("../utils/index"),
   jwt = require("jsonwebtoken"),
-  bcrypt = require("bcrypt"),
-  qr = require("qrcode");
+  bcrypt = require("bcrypt");
 
 require("dotenv").config();
 const secret_key = process.env.JWT_KEY || "no_secret";
@@ -11,6 +10,13 @@ const secret_key = process.env.JWT_KEY || "no_secret";
 module.exports = {
   register: async (req, res) => {
     try {
+      const fileTostring = req.file.buffer.toString("base64");
+
+      const uploadFile = await imageKit.upload({
+        fileName: req.file.originalname,
+        file: fileTostring,
+      });
+
       const data = await users.create({
         data: {
           email: req.body.email,
@@ -19,7 +25,7 @@ module.exports = {
             create: {
               name: req.body.name,
               gender: req.body.gender,
-              images: `/images/${req.file.filename}`,
+              images: uploadFile.url,
               phone: req.body.phone,
             },
           },
@@ -120,39 +126,5 @@ module.exports = {
     return res.status(403).json({
       error: "Your old password is not valid",
     });
-  },
-  upload: async (req, res) => {
-    try {
-      const fileTostring = req.file.buffer.toString("base64");
-
-      const uploadFile = await imageKit.upload({
-        fileName: req.file.originalname,
-        file: fileTostring,
-      });
-
-      return res.status(200).json({
-        data: {
-          name: uploadFile.name,
-          url: uploadFile.url,
-          type: uploadFile.fileType,
-        },
-      });
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json({
-        error,
-      });
-    }
-  },
-  qr_code: async (req, res, next) => {
-    try {
-      const hasil = req.data;
-      console.log(hasil);
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json({
-        error,
-      });
-    }
   },
 };
