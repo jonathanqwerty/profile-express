@@ -21,6 +21,5 @@ router.post(
   validate(schema.changePasswordValidator),
   controller.changePassword
 );
-router.post("/upload", multerLib.single("image"), controller.upload);
 
 module.exports = router;
